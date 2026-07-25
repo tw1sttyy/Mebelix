@@ -1,0 +1,21 @@
+<h1>Корзина</h1>
+<div id="cart"></div>
+<button onclick="checkout()">Оформити</button>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const div = document.getElementById("cart");
+
+cart.forEach(p=>{
+  div.innerHTML += `<p>${p.title} - ${p.price} грн</p>`;
+});
+
+function checkout(){
+  let text = "Замовлення:%0A";
+  cart.forEach(p=>{
+    text += p.title + "%0A";
+  });
+
+  window.open(`https://t.me/aasdd130?text=${text}`);
+}
+</script>
