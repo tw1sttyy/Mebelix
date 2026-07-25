@@ -3,20 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Меблі Store</title>
+<title>Mebelix</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial;
-  background: #f5f5f5;
+  background: #f4f4f4;
 }
 
 header {
-  background: #222;
+  background: #111;
   color: white;
   padding: 15px;
   text-align: center;
+}
+
+.search {
+  text-align: center;
+  padding: 10px;
+}
+
+.search input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
 }
 
 .container {
@@ -32,6 +43,11 @@ header {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
 }
 
 .card img {
@@ -46,17 +62,13 @@ header {
 }
 
 button {
-  margin: 5px;
+  margin: 10px;
   padding: 10px;
   border: none;
   background: #ff6600;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-}
-
-button:hover {
-  background: #cc5200;
 }
 
 .cart {
@@ -66,14 +78,8 @@ button:hover {
   border-radius: 10px;
 }
 
-input {
-  padding: 8px;
-  margin: 5px;
-  width: 90%;
-}
-
 footer {
-  background: #222;
+  background: #111;
   color: white;
   text-align: center;
   padding: 10px;
@@ -84,59 +90,71 @@ footer {
 <body>
 
 <header>
-  <h1>🛋️ Меблі Store</h1>
+  <h1>🛋️ Mebelix</h1>
   <p>Інтернет-магазин меблів</p>
 </header>
 
-<div class="container">
-
-  <div class="card">
-    <img src="https://via.placeholder.com/300x200">
-    <h3>Диван Modern</h3>
-    <p class="price">12000 грн</p>
-    <button onclick="addToCart('Диван Modern',12000)">В корзину</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/300x200">
-    <h3>Крісло Comfort</h3>
-    <p class="price">4500 грн</p>
-    <button onclick="addToCart('Крісло Comfort',4500)">В корзину</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/300x200">
-    <h3>Стіл Wood</h3>
-    <p class="price">6800 грн</p>
-    <button onclick="addToCart('Стіл Wood',6800)">В корзину</button>
-  </div>
-
+<div class="search">
+  <input type="text" id="search" placeholder="Пошук..." onkeyup="filter()">
 </div>
+
+<div class="container" id="products"></div>
 
 <div class="cart">
   <h2>🛒 Корзина</h2>
   <ul id="cartList"></ul>
   <h3>Сума: <span id="total">0</span> грн</h3>
 
-  <h3>Оформити замовлення</h3>
   <input type="text" id="name" placeholder="Ваше ім’я">
   <input type="text" id="phone" placeholder="Телефон">
 
   <button onclick="checkout()">Замовити</button>
-
-  <br><br>
-  <a href="https://t.me/your_username" target="_blank">
-    <button style="background:#0088cc;">Написати в Telegram</button>
-  </a>
 </div>
 
 <footer>
-  <p>📞 Контакти: +380962321849</p>
+  <p>📞 +38066666666</p>
 </footer>
 
 <script>
+const TOKEN = "ТВОЙ_TOKEN";
+const CHAT_ID = "ТВОЙ_CHAT_ID";
+
 let cart = [];
 let total = 0;
+
+const products = [
+  {name:"Диван Modern", price:12000, img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7"},
+  {name:"Крісло Comfort", price:4500, img:"https://images.unsplash.com/photo-1616627981456-76e89f64c6df"},
+  {name:"Стіл Wood", price:6800, img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc"},
+  {name:"Ліжко King", price:15000, img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"},
+  {name:"Шафа Classic", price:9000, img:"https://images.unsplash.com/photo-1615874959474-d609969a20ed"},
+  {name:"Комод Style", price:5200, img:"https://images.unsplash.com/photo-1598300053653-9f6a8b6c7c2c"},
+  {name:"Полиця Loft", price:2400, img:"https://images.unsplash.com/photo-1588854337118-1c2d9247b3f2"},
+  {name:"Стілець Soft", price:1800, img:"https://images.unsplash.com/photo-1582582429416-54f1f28b74c3"},
+  {name:"Тумба Bedside", price:3000, img:"https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf"},
+  {name:"Офісне крісло Pro", price:7200, img:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91"}
+];
+
+function renderProducts(list = products) {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+  list.forEach(p => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p class="price">${p.price} грн</p>
+        <button onclick="addToCart('${p.name}', ${p.price})">В корзину</button>
+      </div>
+    `;
+  });
+}
+
+function filter() {
+  const val = document.getElementById("search").value.toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(val));
+  renderProducts(filtered);
+}
 
 function addToCart(name, price) {
   cart.push({name, price});
@@ -164,16 +182,19 @@ function checkout() {
     return;
   }
 
-  let text = "Замовлення:\n";
+  let message = "🛒 Замовлення:%0A";
   cart.forEach(item => {
-    text += item.name + " - " + item.price + " грн\n";
+    message += item.name + " - " + item.price + " грн%0A";
   });
 
-  text += "Сума: " + total + " грн\n";
-  text += "Ім'я: " + name + "\nТелефон: " + phone;
+  message += "%0A💰 Сума: " + total + " грн%0A";
+  message += "👤 " + name + "%0A📞 " + phone;
 
-  alert(text);
+  fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`)
+    .then(() => alert("Відправлено 🚀"));
 }
+
+renderProducts();
 </script>
 
 </body>
