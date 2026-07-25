@@ -3,198 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mebelix</title>
+<title>Luxury Furniture</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: #f4f4f4;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
 }
 
 header {
-  background: #111;
-  color: white;
-  padding: 15px;
+  background: linear-gradient(90deg, #000, #1a1a1a);
+  padding: 20px;
   text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.search {
-  text-align: center;
-  padding: 10px;
-}
-
-.search input {
-  width: 80%;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.container {
+.catalog {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  padding: 30px;
+  gap: 25px;
 }
 
 .card {
-  background: white;
-  border-radius: 10px;
+  background: #1a1a1a;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
   transition: 0.3s;
 }
 
 .card:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
 }
 
 .card img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
 }
 
+.card-content {
+  padding: 15px;
+}
+
 .price {
-  color: green;
+  color: #00ffcc;
   font-size: 18px;
+  margin: 10px 0;
 }
 
 button {
-  margin: 10px;
+  width: 100%;
   padding: 10px;
   border: none;
-  background: #ff6600;
-  color: white;
-  border-radius: 5px;
+  background: #00ffcc;
+  color: black;
+  font-weight: bold;
   cursor: pointer;
+  border-radius: 8px;
 }
 
-.cart {
-  background: white;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
+button:hover {
+  background: #00cca3;
 }
 
 footer {
-  background: #111;
-  color: white;
   text-align: center;
-  padding: 10px;
+  padding: 30px;
+  background: #000;
+  margin-top: 20px;
+}
+
+.telegram {
+  display: inline-block;
+  margin-top: 10px;
+  color: #00ffcc;
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>
+
 </head>
 
 <body>
 
 <header>
-  <h1>🛋️ Mebelix</h1>
-  <p>Інтернет-магазин меблів</p>
+🪑 LUXURY FURNITURE
 </header>
 
-<div class="search">
-  <input type="text" id="search" placeholder="Пошук..." onkeyup="filter()">
+<section class="catalog">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1582582494700-7c3c1c9c1f8c">
+<div class="card-content">
+<h3>Сучасний диван</h3>
+<p class="price">12 500 грн</p>
+<button onclick="buy('Сучасний диван')">Купити</button>
+</div>
 </div>
 
-<div class="container" id="products"></div>
-
-<div class="cart">
-  <h2>🛒 Корзина</h2>
-  <ul id="cartList"></ul>
-  <h3>Сума: <span id="total">0</span> грн</h3>
-
-  <input type="text" id="name" placeholder="Ваше ім’я">
-  <input type="text" id="phone" placeholder="Телефон">
-
-  <button onclick="checkout()">Замовити</button>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1598300056391-5c8dc9b6e0c5">
+<div class="card-content">
+<h3>Дерев'яний стіл</h3>
+<p class="price">8 200 грн</p>
+<button onclick="buy('Дерев'яний стіл')">Купити</button>
 </div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1616627450811-46c9b3f0f979">
+<div class="card-content">
+<h3>Крісло преміум</h3>
+<p class="price">6 900 грн</p>
+<button onclick="buy('Крісло преміум')">Купити</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c">
+<div class="card-content">
+<h3>Ліжко люкс</h3>
+<p class="price">15 000 грн</p>
+<button onclick="buy('Ліжко люкс')">Купити</button>
+</div>
+</div>
+
+</section>
 
 <footer>
-  <p>📞 +38066666666</p>
+<p>Засновник: Сергій</p>
+<a class="telegram" href="https://t.me/aasdd130" target="_blank">
+📩 Перейти в Telegram
+</a>
 </footer>
 
 <script>
-const TOKEN = "ТВОЙ_TOKEN";
-const CHAT_ID = "ТВОЙ_CHAT_ID";
-
-let cart = [];
-let total = 0;
-
-const products = [
-  {name:"Диван Modern", price:12000, img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7"},
-  {name:"Крісло Comfort", price:4500, img:"https://images.unsplash.com/photo-1616627981456-76e89f64c6df"},
-  {name:"Стіл Wood", price:6800, img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc"},
-  {name:"Ліжко King", price:15000, img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"},
-  {name:"Шафа Classic", price:9000, img:"https://images.unsplash.com/photo-1615874959474-d609969a20ed"},
-  {name:"Комод Style", price:5200, img:"https://images.unsplash.com/photo-1598300053653-9f6a8b6c7c2c"},
-  {name:"Полиця Loft", price:2400, img:"https://images.unsplash.com/photo-1588854337118-1c2d9247b3f2"},
-  {name:"Стілець Soft", price:1800, img:"https://images.unsplash.com/photo-1582582429416-54f1f28b74c3"},
-  {name:"Тумба Bedside", price:3000, img:"https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf"},
-  {name:"Офісне крісло Pro", price:7200, img:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91"}
-];
-
-function renderProducts(list = products) {
-  const container = document.getElementById("products");
-  container.innerHTML = "";
-  list.forEach(p => {
-    container.innerHTML += `
-      <div class="card">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <p class="price">${p.price} грн</p>
-        <button onclick="addToCart('${p.name}', ${p.price})">В корзину</button>
-      </div>
-    `;
-  });
+function buy(product) {
+  const message = `Привіт! Хочу замовити: ${product}`;
+  const url = `https://t.me/aasdd130?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
 }
-
-function filter() {
-  const val = document.getElementById("search").value.toLowerCase();
-  const filtered = products.filter(p => p.name.toLowerCase().includes(val));
-  renderProducts(filtered);
-}
-
-function addToCart(name, price) {
-  cart.push({name, price});
-  total += price;
-  renderCart();
-}
-
-function renderCart() {
-  let list = document.getElementById("cartList");
-  list.innerHTML = "";
-  cart.forEach(item => {
-    let li = document.createElement("li");
-    li.innerText = item.name + " - " + item.price + " грн";
-    list.appendChild(li);
-  });
-  document.getElementById("total").innerText = total;
-}
-
-function checkout() {
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
-
-  if(!name || !phone) {
-    alert("Заповни всі поля!");
-    return;
-  }
-
-  let message = "🛒 Замовлення:%0A";
-  cart.forEach(item => {
-    message += item.name + " - " + item.price + " грн%0A";
-  });
-
-  message += "%0A💰 Сума: " + total + " грн%0A";
-  message += "👤 " + name + "%0A📞 " + phone;
-
-  fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`)
-    .then(() => alert("Відправлено 🚀"));
-}
-
-renderProducts();
 </script>
 
 </body>
