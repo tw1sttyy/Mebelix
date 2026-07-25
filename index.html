@@ -3,152 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxury Furniture</title>
+<title>Furniture Market</title>
+
+<!-- mylead-verification: 1ecc87c2bb96da6e2efac3802207bd6c -->
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
-  color: white;
-}
-
+body {margin:0;font-family:Arial;background:#f5f5f5;}
 header {
-  background: linear-gradient(90deg, #000, #1a1a1a);
-  padding: 20px;
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  letter-spacing: 2px;
+  background:#111;color:#fff;padding:10px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+header input {padding:6px;width:200px;}
+
+.top-buttons button {margin-left:10px;}
+
+.container {display:flex;}
+
+.sidebar {
+  width:200px;background:#fff;padding:10px;
 }
 
 .catalog {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  padding: 30px;
-  gap: 25px;
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:15px;padding:15px;
 }
 
 .card {
-  background: #1a1a1a;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: 0.3s;
+  background:#fff;border-radius:10px;overflow:hidden;
+  cursor:pointer;transition:0.2s;
 }
+.card:hover {transform:scale(1.03);}
+.card img {width:100%;height:150px;object-fit:cover;}
+.card-content {padding:10px;}
+.price {color:green;font-weight:bold;}
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255,255,255,0.2);
-}
-
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.card-content {
-  padding: 15px;
-}
-
-.price {
-  color: #00ffcc;
-  font-size: 18px;
-  margin: 10px 0;
+.product-page, .cart-page, .fav-page {
+  display:none;padding:20px;
 }
 
 button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  background: #00ffcc;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 8px;
+  padding:8px;border:none;background:black;color:white;cursor:pointer;margin-top:5px;
 }
 
-button:hover {
-  background: #00cca3;
-}
+.back {cursor:pointer;color:blue;margin-bottom:10px;display:inline-block;}
 
 footer {
-  text-align: center;
-  padding: 30px;
-  background: #000;
-  margin-top: 20px;
-}
-
-.telegram {
-  display: inline-block;
-  margin-top: 10px;
-  color: #00ffcc;
-  text-decoration: none;
-  font-weight: bold;
+  text-align:center;padding:20px;background:#111;color:#fff;
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-🪑 LUXURY FURNITURE
+<h2>🪑 Furniture Market</h2>
+<input type="text" placeholder="Пошук..." oninput="search(this.value)">
+<div class="top-buttons">
+<button onclick="openCart()">🛒</button>
+<button onclick="openFav()">❤️</button>
+</div>
 </header>
 
-<section class="catalog">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1582582494700-7c3c1c9c1f8c">
-<div class="card-content">
-<h3>Сучасний диван</h3>
-<p class="price">12 500 грн</p>
-<button onclick="buy('Сучасний диван')">Купити</button>
-</div>
+<div class="container">
+<div class="sidebar">
+<h3>Фільтр</h3>
+<button onclick="filter('all')">Все</button><br><br>
+<button onclick="filter('cheap')">До 10 000</button><br><br>
+<button onclick="filter('expensive')">Преміум</button>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1598300056391-5c8dc9b6e0c5">
-<div class="card-content">
-<h3>Дерев'яний стіл</h3>
-<p class="price">8 200 грн</p>
-<button onclick="buy('Дерев'яний стіл')">Купити</button>
-</div>
+<div class="catalog" id="catalog"></div>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1616627450811-46c9b3f0f979">
-<div class="card-content">
-<h3>Крісло преміум</h3>
-<p class="price">6 900 грн</p>
-<button onclick="buy('Крісло преміум')">Купити</button>
-</div>
+<!-- PRODUCT -->
+<div class="product-page" id="productPage">
+<span class="back" onclick="goBack()">⬅ Назад</span>
+<h2 id="pTitle"></h2>
+<img id="pImg" style="max-width:400px">
+<p id="pDesc"></p>
+<h3 id="pPrice"></h3>
+
+<button onclick="addToCart()">🛒 В корзину</button>
+<button onclick="addToFav()">❤️ В обране</button>
+<button onclick="buy()">Купити</button>
+
+<h3>⭐ Відгуки:</h3>
+<div id="reviews"></div>
+
+<input id="reviewInput" placeholder="Напиши відгук">
+<button onclick="addReview()">Додати</button>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c">
-<div class="card-content">
-<h3>Ліжко люкс</h3>
-<p class="price">15 000 грн</p>
-<button onclick="buy('Ліжко люкс')">Купити</button>
-</div>
+<!-- CART -->
+<div class="cart-page" id="cartPage">
+<span class="back" onclick="goBack()">⬅ Назад</span>
+<h2>🛒 Корзина</h2>
+<div id="cartItems"></div>
+<button onclick="buyCart()">Оформити через Telegram</button>
 </div>
 
-</section>
+<!-- FAV -->
+<div class="fav-page" id="favPage">
+<span class="back" onclick="goBack()">⬅ Назад</span>
+<h2>❤️ Обране</h2>
+<div id="favItems"></div>
+</div>
 
 <footer>
 <p>Засновник: Сергій</p>
-<a class="telegram" href="https://t.me/aasdd130" target="_blank">
-📩 Перейти в Telegram
-</a>
+<a href="https://t.me/aasdd130" target="_blank">📩 Telegram</a>
 </footer>
 
 <script>
-function buy(product) {
-  const message = `Привіт! Хочу замовити: ${product}`;
-  const url = `https://t.me/aasdd130?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
+let currentProduct = null;
+let cart = [];
+let fav = [];
+let reviews = {};
+
+const products = [];
+const names = ["Диван","Стіл","Крісло","Ліжко","Шафа","Комод"];
+
+for(let i=1;i<=50;i++){
+  let name = names[i%names.length];
+  products.push({
+    id:i,
+    title:name+" "+i,
+    price:Math.floor(Math.random()*20000)+3000,
+    img:"https://source.unsplash.com/400x300/?furniture,"+i,
+    desc:"Якісний "+name+" для вашого дому."
+  });
 }
+
+function render(list){
+  const catalog = document.getElementById("catalog");
+  catalog.innerHTML="";
+  list.forEach(p=>{
+    catalog.innerHTML+=`
+    <div class="card" onclick='openProduct(${JSON.stringify(p)})'>
+      <img src="${p.img}">
+      <div class="card-content">
+        <h4>${p.title}</h4>
+        <p class="price">${p.price} грн</p>
+      </div>
+    </div>`;
+  });
+}
+
+function openProduct(p){
+  currentProduct=p;
+  document.querySelector(".container").style.display="none";
+  document.getElementById("productPage").style.display="block";
+
+  pTitle.innerText=p.title;
+  pImg.src=p.img;
+  pDesc.innerText=p.desc;
+  pPrice.innerText=p.price+" грн";
+
+  renderReviews();
+}
+
+function goBack(){
+  document.querySelector(".container").style.display="flex";
+  document.getElementById("productPage").style.display="none";
+  document.getElementById("cartPage").style.display="none";
+  document.getElementById("favPage").style.display="none";
+}
+
+function addToCart(){
+  cart.push(currentProduct);
+  alert("Додано в корзину");
+}
+
+function addToFav(){
+  fav.push(currentProduct);
+  alert("Додано в обране");
+}
+
+function openCart(){
+  document.querySelector(".container").style.display="none";
+  cartPage.style.display="block";
+
+  cartItems.innerHTML="";
+  cart.forEach(p=>{
+    cartItems.innerHTML+=`<p>${p.title} - ${p.price} грн</p>`;
+  });
+}
+
+function openFav(){
+  document.querySelector(".container").style.display="none";
+  favPage.style.display="block";
+
+  favItems.innerHTML="";
+  fav.forEach(p=>{
+    favItems.innerHTML+=`<p>${p.title}</p>`;
+  });
+}
+
+function buy(){
+  window.open(`https://t.me/aasdd130?text=Хочу купити ${currentProduct.title}`);
+}
+
+function buyCart(){
+  let text="Замовлення:%0A";
+  cart.forEach(p=>{
+    text+=p.title+"%0A";
+  });
+  window.open(`https://t.me/aasdd130?text=${text}`);
+}
+
+function search(text){
+  render(products.filter(p=>p.title.toLowerCase().includes(text.toLowerCase())));
+}
+
+function filter(type){
+  if(type==="cheap") render(products.filter(p=>p.price<10000));
+  else if(type==="expensive") render(products.filter(p=>p.price>=10000));
+  else render(products);
+}
+
+function addReview(){
+  const text = reviewInput.value;
+  if(!reviews[currentProduct.id]) reviews[currentProduct.id]=[];
+  reviews[currentProduct.id].push(text);
+  reviewInput.value="";
+  renderReviews();
+}
+
+function renderReviews(){
+  reviewsDiv = document.getElementById("reviews");
+  reviewsDiv.innerHTML="";
+  (reviews[currentProduct.id]||[]).forEach(r=>{
+    reviewsDiv.innerHTML+=`<p>⭐ ${r}</p>`;
+  });
+}
+
+render(products);
 </script>
 
 </body>
