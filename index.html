@@ -3,112 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Furniture Market</title>
+<title>Luxury Furniture</title>
 
 <!-- mylead-verification: 1ecc87c2bb96da6e2efac3802207bd6c -->
 
+<!-- 🔥 Гарний шрифт -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-body {margin:0;font-family:Arial;background:#f5f5f5;}
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#f5f5f5;
+}
+
+/* HERO */
+.hero {
+  height:80vh;
+  background:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85') center/cover;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  text-align:center;
+}
+
+.hero h1 {
+  font-size:48px;
+  background:rgba(0,0,0,0.5);
+  padding:20px;
+  border-radius:10px;
+}
+
+/* HEADER */
 header {
-  background:#111;color:#fff;padding:10px;
-  display:flex;justify-content:space-between;align-items:center;
-}
-header input {padding:6px;width:200px;}
-
-.top-buttons button {margin-left:10px;}
-
-.container {display:flex;}
-
-.sidebar {
-  width:200px;background:#fff;padding:10px;
+  background:#111;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
 }
 
+header input {
+  padding:8px;
+}
+
+/* CATALOG */
 .catalog {
-  flex:1;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;padding:15px;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+  padding:20px;
 }
 
 .card {
-  background:#fff;border-radius:10px;overflow:hidden;
-  cursor:pointer;transition:0.2s;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  transition:0.3s;
+  cursor:pointer;
 }
-.card:hover {transform:scale(1.03);}
-.card img {width:100%;height:150px;object-fit:cover;}
-.card-content {padding:10px;}
-.price {color:green;font-weight:bold;}
 
-.product-page, .cart-page, .fav-page {
-  display:none;padding:20px;
+.card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card-content {
+  padding:15px;
+}
+
+.price {
+  color:#27ae60;
+  font-weight:bold;
+}
+
+/* PRODUCT PAGE */
+.product-page {
+  display:none;
+  padding:20px;
+}
+
+.product-page img {
+  max-width:400px;
+  border-radius:10px;
 }
 
 button {
-  padding:8px;border:none;background:black;color:white;cursor:pointer;margin-top:5px;
+  padding:10px;
+  background:black;
+  color:white;
+  border:none;
+  cursor:pointer;
+  margin-top:10px;
 }
 
-.back {cursor:pointer;color:blue;margin-bottom:10px;display:inline-block;}
+.back {
+  cursor:pointer;
+  color:blue;
+}
 
+/* FOOTER */
 footer {
-  text-align:center;padding:20px;background:#111;color:#fff;
+  text-align:center;
+  padding:30px;
+  background:#111;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h2>🪑 Furniture Market</h2>
-<input type="text" placeholder="Пошук..." oninput="search(this.value)">
-<div class="top-buttons">
-<button onclick="openCart()">🛒</button>
-<button onclick="openFav()">❤️</button>
+<!-- 🔥 ОБЛОЖКА -->
+<div class="hero">
+  <h1>Luxury Furniture Store</h1>
 </div>
+
+<header>
+<h2>🪑 Магазин меблів</h2>
+<input type="text" placeholder="Пошук..." oninput="search(this.value)">
 </header>
 
-<div class="container">
-<div class="sidebar">
-<h3>Фільтр</h3>
-<button onclick="filter('all')">Все</button><br><br>
-<button onclick="filter('cheap')">До 10 000</button><br><br>
-<button onclick="filter('expensive')">Преміум</button>
-</div>
-
+<!-- КАТАЛОГ -->
 <div class="catalog" id="catalog"></div>
-</div>
 
-<!-- PRODUCT -->
+<!-- СТОРІНКА ТОВАРУ -->
 <div class="product-page" id="productPage">
 <span class="back" onclick="goBack()">⬅ Назад</span>
+
 <h2 id="pTitle"></h2>
-<img id="pImg" style="max-width:400px">
+<img id="pImg">
 <p id="pDesc"></p>
 <h3 id="pPrice"></h3>
 
-<button onclick="addToCart()">🛒 В корзину</button>
-<button onclick="addToFav()">❤️ В обране</button>
 <button onclick="buy()">Купити</button>
-
-<h3>⭐ Відгуки:</h3>
-<div id="reviews"></div>
-
-<input id="reviewInput" placeholder="Напиши відгук">
-<button onclick="addReview()">Додати</button>
-</div>
-
-<!-- CART -->
-<div class="cart-page" id="cartPage">
-<span class="back" onclick="goBack()">⬅ Назад</span>
-<h2>🛒 Корзина</h2>
-<div id="cartItems"></div>
-<button onclick="buyCart()">Оформити через Telegram</button>
-</div>
-
-<!-- FAV -->
-<div class="fav-page" id="favPage">
-<span class="back" onclick="goBack()">⬅ Назад</span>
-<h2>❤️ Обране</h2>
-<div id="favItems"></div>
 </div>
 
 <footer>
@@ -118,26 +153,22 @@ footer {
 
 <script>
 let currentProduct = null;
-let cart = [];
-let fav = [];
-let reviews = {};
 
 const products = [];
 const names = ["Диван","Стіл","Крісло","Ліжко","Шафа","Комод"];
 
-for(let i=1;i<=50;i++){
+for(let i=1;i<=30;i++){
   let name = names[i%names.length];
   products.push({
-    id:i,
     title:name+" "+i,
     price:Math.floor(Math.random()*20000)+3000,
-    img:"https://source.unsplash.com/400x300/?furniture,"+i,
-    desc:"Якісний "+name+" для вашого дому."
+    img:`https://source.unsplash.com/400x300/?modern,furniture,${i}`,
+    desc:"Стильний та якісний "+name+" для вашого інтер'єру."
   });
 }
 
 function render(list){
-  const catalog = document.getElementById("catalog");
+  const catalog=document.getElementById("catalog");
   catalog.innerHTML="";
   list.forEach(p=>{
     catalog.innerHTML+=`
@@ -153,90 +184,26 @@ function render(list){
 
 function openProduct(p){
   currentProduct=p;
-  document.querySelector(".container").style.display="none";
+  document.querySelector(".catalog").style.display="none";
   document.getElementById("productPage").style.display="block";
 
   pTitle.innerText=p.title;
   pImg.src=p.img;
   pDesc.innerText=p.desc;
   pPrice.innerText=p.price+" грн";
-
-  renderReviews();
 }
 
 function goBack(){
-  document.querySelector(".container").style.display="flex";
+  document.querySelector(".catalog").style.display="grid";
   document.getElementById("productPage").style.display="none";
-  document.getElementById("cartPage").style.display="none";
-  document.getElementById("favPage").style.display="none";
-}
-
-function addToCart(){
-  cart.push(currentProduct);
-  alert("Додано в корзину");
-}
-
-function addToFav(){
-  fav.push(currentProduct);
-  alert("Додано в обране");
-}
-
-function openCart(){
-  document.querySelector(".container").style.display="none";
-  cartPage.style.display="block";
-
-  cartItems.innerHTML="";
-  cart.forEach(p=>{
-    cartItems.innerHTML+=`<p>${p.title} - ${p.price} грн</p>`;
-  });
-}
-
-function openFav(){
-  document.querySelector(".container").style.display="none";
-  favPage.style.display="block";
-
-  favItems.innerHTML="";
-  fav.forEach(p=>{
-    favItems.innerHTML+=`<p>${p.title}</p>`;
-  });
 }
 
 function buy(){
   window.open(`https://t.me/aasdd130?text=Хочу купити ${currentProduct.title}`);
 }
 
-function buyCart(){
-  let text="Замовлення:%0A";
-  cart.forEach(p=>{
-    text+=p.title+"%0A";
-  });
-  window.open(`https://t.me/aasdd130?text=${text}`);
-}
-
 function search(text){
   render(products.filter(p=>p.title.toLowerCase().includes(text.toLowerCase())));
-}
-
-function filter(type){
-  if(type==="cheap") render(products.filter(p=>p.price<10000));
-  else if(type==="expensive") render(products.filter(p=>p.price>=10000));
-  else render(products);
-}
-
-function addReview(){
-  const text = reviewInput.value;
-  if(!reviews[currentProduct.id]) reviews[currentProduct.id]=[];
-  reviews[currentProduct.id].push(text);
-  reviewInput.value="";
-  renderReviews();
-}
-
-function renderReviews(){
-  reviewsDiv = document.getElementById("reviews");
-  reviewsDiv.innerHTML="";
-  (reviews[currentProduct.id]||[]).forEach(r=>{
-    reviewsDiv.innerHTML+=`<p>⭐ ${r}</p>`;
-  });
 }
 
 render(products);
