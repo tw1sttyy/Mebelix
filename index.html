@@ -2,212 +2,54 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxury Furniture</title>
+<title>Furniture Store</title>
 
 <!-- mylead-verification: 1ecc87c2bb96da6e2efac3802207bd6c -->
 
-<!-- 🔥 Гарний шрифт -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<style>
-body {
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#f5f5f5;
-}
-
-/* HERO */
-.hero {
-  height:80vh;
-  background:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85') center/cover;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  text-align:center;
-}
-
-.hero h1 {
-  font-size:48px;
-  background:rgba(0,0,0,0.5);
-  padding:20px;
-  border-radius:10px;
-}
-
-/* HEADER */
-header {
-  background:#111;
-  color:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-}
-
-header input {
-  padding:8px;
-}
-
-/* CATALOG */
-.catalog {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:20px;
-  padding:20px;
-}
-
-.card {
-  background:white;
-  border-radius:12px;
-  overflow:hidden;
-  transition:0.3s;
-  cursor:pointer;
-}
-
-.card:hover {
-  transform:translateY(-5px);
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
-}
-
-.card img {
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-
-.card-content {
-  padding:15px;
-}
-
-.price {
-  color:#27ae60;
-  font-weight:bold;
-}
-
-/* PRODUCT PAGE */
-.product-page {
-  display:none;
-  padding:20px;
-}
-
-.product-page img {
-  max-width:400px;
-  border-radius:10px;
-}
-
-button {
-  padding:10px;
-  background:black;
-  color:white;
-  border:none;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.back {
-  cursor:pointer;
-  color:blue;
-}
-
-/* FOOTER */
-footer {
-  text-align:center;
-  padding:30px;
-  background:#111;
-  color:white;
-}
-</style>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- 🔥 ОБЛОЖКА -->
-<div class="hero">
-  <h1>Luxury Furniture Store</h1>
-</div>
-
 <header>
-<h2>🪑 Магазин меблів</h2>
-<input type="text" placeholder="Пошук..." oninput="search(this.value)">
+<h1>🪑 Furniture Store</h1>
 </header>
 
-<!-- КАТАЛОГ -->
-<div class="catalog" id="catalog"></div>
+<div class="catalog">
 
-<!-- СТОРІНКА ТОВАРУ -->
-<div class="product-page" id="productPage">
-<span class="back" onclick="goBack()">⬅ Назад</span>
-
-<h2 id="pTitle"></h2>
-<img id="pImg">
-<p id="pDesc"></p>
-<h3 id="pPrice"></h3>
-
-<button onclick="buy()">Купити</button>
+<div class="card" onclick="openProduct('sofa')">
+<img src="img/sofa.jpg">
+<h3>Диван</h3>
+<p>12 000 грн</p>
 </div>
 
-<footer>
-<p>Засновник: Сергій</p>
-<a href="https://t.me/aasdd130" target="_blank">📩 Telegram</a>
-</footer>
+<div class="card" onclick="openProduct('table')">
+<img src="img/table.jpg">
+<h3>Стіл</h3>
+<p>8 000 грн</p>
+</div>
 
-<script>
-let currentProduct = null;
+<div class="card" onclick="openProduct('chair')">
+<img src="img/chair.jpg">
+<h3>Крісло</h3>
+<p>6 500 грн</p>
+</div>
 
-const products = [];
-const names = ["Диван","Стіл","Крісло","Ліжко","Шафа","Комод"];
+<div class="card" onclick="openProduct('bed')">
+<img src="img/bed.jpg">
+<h3>Ліжко</h3>
+<p>15 000 грн</p>
+</div>
 
-for(let i=1;i<=30;i++){
-  let name = names[i%names.length];
-  products.push({
-    title:name+" "+i,
-    price:Math.floor(Math.random()*20000)+3000,
-    img:`https://source.unsplash.com/400x300/?modern,furniture,${i}`,
-    desc:"Стильний та якісний "+name+" для вашого інтер'єру."
-  });
-}
+<div class="card" onclick="openProduct('wardrobe')">
+<img src="img/wardrobe.jpg">
+<h3>Шафа</h3>
+<p>11 000 грн</p>
+</div>
 
-function render(list){
-  const catalog=document.getElementById("catalog");
-  catalog.innerHTML="";
-  list.forEach(p=>{
-    catalog.innerHTML+=`
-    <div class="card" onclick='openProduct(${JSON.stringify(p)})'>
-      <img src="${p.img}">
-      <div class="card-content">
-        <h4>${p.title}</h4>
-        <p class="price">${p.price} грн</p>
-      </div>
-    </div>`;
-  });
-}
+</div>
 
-function openProduct(p){
-  currentProduct=p;
-  document.querySelector(".catalog").style.display="none";
-  document.getElementById("productPage").style.display="block";
-
-  pTitle.innerText=p.title;
-  pImg.src=p.img;
-  pDesc.innerText=p.desc;
-  pPrice.innerText=p.price+" грн";
-}
-
-function goBack(){
-  document.querySelector(".catalog").style.display="grid";
-  document.getElementById("productPage").style.display="none";
-}
-
-function buy(){
-  window.open(`https://t.me/aasdd130?text=Хочу купити ${currentProduct.title}`);
-}
-
-function search(text){
-  render(products.filter(p=>p.title.toLowerCase().includes(text.toLowerCase())));
-}
-
-render(products);
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
